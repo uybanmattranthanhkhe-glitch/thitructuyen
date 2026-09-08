@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Câu Hỏi Thi Trực Tuyến</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: blue;
+            margin-bottom: 5px;
+        }
+        .info {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        .score-board {
+            text-align: center;
+            font-size: 1.3em;
+            margin-bottom: 20px;
+            font-weight: bold;
+            color: #007bff;
+            background: #e7f3ff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .btn-reset {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            transition: background 0.3s;
+        }
+        .btn-reset:hover {
+            background-color: #218838;
+        }
+        .question-block {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 1.05em;
+            color: #2c3e50;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .options li {
+            padding: 10px 15px;
+            margin: 8px 0;
+            background-color: #e9ecef;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .options li:hover {
+            background-color: #dee2e6;
+        }
+        .options li.correct {
+            background-color: #d4edda !important;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            font-weight: bold;
+        }
+        .options li.incorrect {
+            background-color: #f8d7da !important;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .options li.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        .legend {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .legend span.green { color: #155724; font-weight: bold; }
+        .legend span.red { color: #721c24; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KIỂM TRA CÂU HỎI <br>THI TRỰC TUYẾN</h1>
+        <p class="info">Hiển thị toàn bộ câu hỏi - Đáp án đúng đã được tô xanh</p>
+        
+        <div class="score-board">
+            Kết quả: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+        
+        <button class="btn-reset" onclick="resetQuiz()">🔄 LÀM MỚI</button>
+        
+        <div id="quiz-container"></div>
+        
+        <div class="legend">
+            📌 <span class="green">Màu xanh</span>: Đáp án đúng | <span class="red">Màu đỏ</span>: Đáp án sai
+        </div>
+    </div>
+
+    <script src="questions.js"></script>
+    <script>
+        const quizContainer = document.getElementById('quiz-container');
+        const scoreElement = document.getElementById('score');
+        const totalElement = document.getElementById('total');
+        
+        let score = 0;
+        let answeredCount = 0;
+        
+        function renderQuiz() {
+            quizContainer.innerHTML = '';
+            score = 0;
+            answeredCount = 0;
+            scoreElement.textContent = score;
+            totalElement.textContent = QUESTION_BANK.length;
+
+            QUESTION_BANK.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-block';
+                
+                let optionsHtml = q.options.map(opt => {
+                    const isCorrect = opt.trim() === q.correctAnswer.trim();
+                    const correctClass = isCorrect ? 'correct' : '';
+                    return `<li data-value="${opt}" data-correct="${isCorrect}" class="${correctClass}">${opt}</li>`;
+                }).join('');
+                
+                questionBlock.innerHTML = `
+                    <div class="question-text">Câu ${index + 1}: ${q.text}</div>
+                    <ul class="options" id="options-${q.id}">
+                        ${optionsHtml}
+                    </ul>
+                `;
+                quizContainer.appendChild(questionBlock);
+            });
+
+            // Gắn sự kiện click cho từng đáp án
+            document.querySelectorAll('.options li').forEach(li => {
+                li.addEventListener('click', function() {
+                    const parentUl = this.parentElement;
+                    if (parentUl.classList.contains('answered')) return;
+                    
+                    parentUl.classList.add('answered');
+                    const isCorrect = this.getAttribute('data-correct') === 'true';
+                    
+                    if (isCorrect) {
+                        score++;
+                        scoreElement.textContent = score;
+                    } else {
+                        this.classList.add('incorrect');
+                    }
+                    
+                    // Vô hiệu hóa các đáp án khác của câu hỏi này
+                    parentUl.querySelectorAll('li').forEach(opt => {
+                        opt.classList.add('disabled');
+                    });
+                    
+                    answeredCount++;
+                });
+            });
+        }
+
+        function resetQuiz() {
+            renderQuiz();
+            window.scrollTo(0, 0);
+        }
+
+        if (typeof QUESTION_BANK !== 'undefined') {
+            renderQuiz();
+        } else {
+            quizContainer.innerHTML = '<p style="color:red; text-align:center;">Không tìm thấy file questions.js. Vui lòng đảm bảo file nằm cùng thư mục với file HTML này.</p>';
+        }
+    </script>
+</body>
+</html>
