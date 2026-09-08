@@ -1109,7 +1109,7 @@ async function taiXepHang() {
     const data = await resp.json();
     if (!data.success) throw new Error(data.error || 'Lỗi không xác định');
 
-    if (data.totalBai === 0) {
+    if (false && data.totalBai === 0) {
       el.innerHTML = '<div class="ranking-loading">Chưa có bài thi nào. Hãy là người đầu tiên! 🎉</div>';
       return;
     }
