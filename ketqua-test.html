@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kết quả chung cuộc - Cuộc thi trực tuyến MTTQ phường Thanh Khê</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 1100px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(13, 71, 161, 0.25);
+    border: 2px solid #1565c0;
+  }
+  .logo { text-align: center; margin-bottom: 10px; }
+  .logo img {
+    width: 120px;
+    height: auto;
+    filter: drop-shadow(0 8px 20px rgba(13, 71, 161, 0.4));
+  }
+  header {
+    text-align: center;
+    background: linear-gradient(135deg, rgba(13, 71, 161, 0.12), rgba(21, 101, 192, 0.18));
+    padding: 20px 15px;
+    border-radius: 12px;
+    border: 1px solid #1976d2;
+    margin-bottom: 25px;
+  }
+  header h1 {
+    color: #0000FF;
+    margin: 0 0 8px 0;
+    font-size: 1.6rem;
+    line-height: 1.35;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.8);
+  }
+  header .subtitle {
+    color: #0d47a1;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  .banner {
+    background: linear-gradient(135deg, #f57c00, #e65100);
+    color: #fff;
+    text-align: center;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 20px rgba(230, 81, 0, 0.35);
+    text-transform: uppercase;
+  }
+  .block {
+    margin-bottom: 35px;
+    background: #fffaf0;
+    border-radius: 14px;
+    padding: 20px;
+    border: 2px solid #f9a825;
+    box-shadow: 0 4px 16px rgba(249, 168, 37, 0.15);
+  }
+  .block h2 {
+    color: #e65100;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin: 0 0 16px 0;
+    padding-left: 12px;
+    border-left: 2px solid #f9a825;
+    border-right: 2px solid #f9a825;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .table-wrap {
+    overflow-x: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    font-size: 0.95rem;
+  }
+  th {
+    background: linear-gradient(135deg, #f57c00, #e65100);
+    color: #fff;
+    padding: 13px 10px;
+    text-align: center;
+    font-weight: 700;
+    white-space: nowrap;
+    font-size: 0.95rem;
+  }
+  td {
+    padding: 12px 10px;
+    text-align: center;
+    border-bottom: 1px solid #f0e0c0;
+    font-size: 0.95rem;
+  }
+  td.name-cell {
+    text-align: left;
+    font-weight: 600;
+    color: #222;
+  }
+  tbody tr:nth-child(even) { background: #fffaf0; }
+  tbody tr:hover { background: #ffecb3; }
+
+  tr.rank-1 { background: linear-gradient(90deg, #ffd54f, #ffca28) !important; font-weight: 800; }
+  tr.rank-2 { background: linear-gradient(90deg, #eceff1, #cfd8dc) !important; font-weight: 700; }
+  tr.rank-3 { background: linear-gradient(90deg, #ffe0b2, #ffccbc) !important; font-weight: 700; }
+  tr.rank-kk { background: #f1f8e9 !important; }
+
+  .giai-badge {
+    display: inline-block;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+  .giai-nhat { background: #ffd54f; color: #7a4a00; }
+  .giai-nhi  { background: #cfd8dc; color: #37474f; }
+  .giai-ba   { background: #ffccbc; color: #bf360c; }
+  .giai-kk   { background: #c8e6c9; color: #2e7d32; }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 10px;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 16px 10px;
+    text-align: center;
+    border: 2px solid #90caf9;
+    box-shadow: 0 3px 10px rgba(13, 71, 161, 0.1);
+  }
+  .stat-card .stat-num {
+    display: block;
+    font-size: 1.7rem;
+    font-weight: 900;
+    color: #0d47a1;
+    line-height: 1.2;
+  }
+  .stat-card .stat-label {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #37474f;
+  }
+  .stat-card.total { border-color: #1565c0; background: linear-gradient(135deg, #1565c0, #0d47a1); }
+  .stat-card.total .stat-num, .stat-card.total .stat-label { color: #fff; }
+  .stat-card.q20 { border-color: #2e7d32; }
+  .stat-card.q20 .stat-num { color: #2e7d32; }
+  .stat-card.q19 { border-color: #f9a825; }
+  .stat-card.q19 .stat-num { color: #e65100; }
+  .stat-card.q18 { border-color: #90a4ae; }
+  .stat-card.q18 .stat-num { color: #37474f; }
+
+  .kdc-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 14px;
+  }
+  .kdc-row .stat-card {
+    flex: 1 1 220px;
+  }
+
+  .thanks {
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #e65100;
+    background: #fff8e1;
+    border: 2px dashed #f9a825;
+    border-radius: 12px;
+    padding: 16px;
+    margin-top: 30px;
+  }
+
+  .note {
+    margin-top: 18px;
+    padding: 14px 18px;
+    background: #e3f2fd;
+    border-left: 3px solid #1565c0;
+    border-right: 3px solid #1565c0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    color: #0d47a1;
+    line-height: 1.6;
+  }
+  .footer {
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 25px 10px 10px;
+    color: #0d47a1;
+    font-weight: 600;
+    margin-top: 30px;
+  }
+  .footer::before,
+  .footer::after {
+    content: "";
+    display: block;
+    width: 140px;
+    height: 2px;
+    background: #1565c0;
+    margin: 0 auto;
+    border-radius: 2px;
+  }
+  .footer::before { margin-bottom: 8px; }
+  .footer::after { margin-top: 8px; }
+
+  .back-home {
+    display: block;
+    width: fit-content;
+    margin: 25px auto 0;
+    padding: 12px 32px;
+    background: linear-gradient(135deg, #1565c0, #0d47a1);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 6px 18px rgba(13, 71, 161, 0.35);
+    transition: 0.3s;
+  }
+  .back-home:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(13, 71, 161, 0.5);
+  }
+
+  @media (max-width: 768px) {
+    body { padding: 10px; }
+    .container { padding: 18px; }
+    header h1 { font-size: 1.15rem; }
+    .banner { font-size: 1rem; padding: 12px; }
+    .block { padding: 14px; }
+    .block h2 { font-size: 1.05rem; }
+    table { font-size: 0.82rem; }
+    th, td { padding: 8px 5px; }
+    .giai-badge { font-size: 0.7rem; padding: 4px 9px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-card .stat-num { font-size: 1.35rem; }
+    .kdc-row .stat-card { flex: 1 1 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="logo">
+    <img src="icon.png" alt="Logo">
+  </div>
+
+  <header>
+    <h1>KẾT QUẢ CHUNG CUỘC<br>
+    CUỘC THI TRỰC TUYẾN TÌM HIỂU NGHỊ QUYẾT ĐẠI HỘI ĐẠI BIỂU<br>
+    MẶT TRẬN TỔ QUỐC VIỆT NAM VÀ CÁC TỔ CHỨC CHÍNH TRỊ - XÃ HỘI<br>
+    NHIỆM KỲ 2026 - 2031</h1>
+    <p class="subtitle">ỦY BAN MẶT TRẬN TỔ QUỐC VIỆT NAM <br> Phường Thanh Khê — Thành phố Đà Nẵng</p>
+  </header>
+
+  <div class="banner">🏆 BẢNG VÀNG VINH DANH 🏆</div>
+
+  <!-- ================= THỐNG KÊ ================= -->
+  <section class="block">
+    <h2>📊 Thống kê cuộc thi</h2>
+
+    <div class="stats-grid">
+      <div class="stat-card total">
+        <span class="stat-num">5.121</span>
+        <span class="stat-label">Bài dự thi đã nhận</span>
+      </div>
+      <div class="stat-card q20">
+        <span class="stat-num">965</span>
+        <span class="stat-label">Trả lời đúng 20 câu</span>
+      </div>
+      <div class="stat-card q19">
+        <span class="stat-num">1.374</span>
+        <span class="stat-label">Trả lời đúng 19 câu</span>
+      </div>
+      <div class="stat-card q18">
+        <span class="stat-num">2.782</span>
+        <span class="stat-label">Trả lời đúng 18 câu trở xuống</span>
+      </div>
+    </div>
+
+    <div class="kdc-row">
+      <div class="stat-card q20">        
+        <span class="stat-label">Khu dân cư có bài dự thi nhiều nhất</span>
+        <span class="stat-num">220 bài</span>
+      </div>
+      <div class="stat-card q18">   
+        <span class="stat-label">Khu dân cư có bài dự thi ít nhất</span>
+        <span class="stat-num">6 bài</span>
+      </div>
+    </div>
+
+    <div class="note">
+      📌 100% khu dân cư trên địa bàn phường đều có bài dự thi tham gia.<br>
+      🏆 Căn cứ thể lệ cuộc thi, Ban Tổ chức quyết định tặng thưởng các tập thể, cá nhân có thành tích xuất sắc (nội dung cụ thể như bảng dưới đây).
+    </div>
+  </section>
+
+  <!-- ================= TẬP THỂ ================= -->
+  <section class="block">
+    <h2>🏵️ Giải tập thể (02 đơn vị)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Hạng</th>
+            <th>Khu dân cư</th>
+            <th>Số người thi</th>
+            <th>Giải thưởng</th>
+          </tr>
+        </thead>
+        <tbody id="collective-body">
+          <!-- Ví dụ mẫu - sẽ được thay bằng dữ liệu động -->
+          <tr class="rank-1">
+            <td>🥇</td>
+            <td class="name-cell">KHU DÂN CƯ 12 TÂN CHÍNH</td>
+            <td>48</td>
+            <td><span class="giai-badge giai-nhat">Giải Nhất tập thể</span></td>
+          </tr>
+          <tr class="rank-2">
+            <td>🥈</td>
+            <td class="name-cell">KHU DÂN CƯ 55 HÒA KHÊ</td>
+            <td>42</td>
+            <td><span class="giai-badge giai-nhi">Giải Nhì tập thể</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      📌 <b>Giải tập thể</b> được xét dựa trên số lượng người tham gia dự thi và kết quả đạt được của đơn vị.
+    </div>
+  </section>
+
+  <!-- ================= CÁ NHÂN ================= -->
+  <section class="block">
+    <h2>🎖️ Giải cá nhân (11 giải: 1 Nhất, 2 Nhì, 3 Ba, 5 Khuyến khích)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Hạng</th>
+            <th>Họ và tên</th>
+            <th>Khu dân cư</th>
+            <th>Số câu đúng</th>
+            <th>Giải thưởng</th>
+          </tr>
+        </thead>
+        <tbody id="individual-body">
+          <!-- Ví dụ mẫu - sẽ được thay bằng dữ liệu động -->
+          <tr class="rank-1">
+            <td>🥇</td>
+            <td class="name-cell">NGUYỄN VĂN A</td>
+            <td>12 TÂN CHÍNH</td>
+            <td>20/20</td>
+            <td><span class="giai-badge giai-nhat">Giải Nhất</span></td>
+          </tr>
+          <tr class="rank-2">
+            <td>🥈</td>
+            <td class="name-cell">TRẦN THỊ B</td>
+            <td>55 HÒA KHÊ</td>
+            <td>20/20</td>
+            <td><span class="giai-badge giai-nhi">Giải Nhì</span></td>
+          </tr>
+          <tr class="rank-2">
+            <td>🥈</td>
+            <td class="name-cell">LÊ VĂN C</td>
+            <td>23 THẠC GIÁN</td>
+            <td>19/20</td>
+            <td><span class="giai-badge giai-nhi">Giải Nhì</span></td>
+          </tr>
+          <tr class="rank-3">
+            <td>🥉</td>
+            <td class="name-cell">PHẠM THỊ D</td>
+            <td>65 THANH KHÊ TÂY</td>
+            <td>19/20</td>
+            <td><span class="giai-badge giai-ba">Giải Ba</span></td>
+          </tr>
+          <tr class="rank-3">
+            <td>🥉</td>
+            <td class="name-cell">HOÀNG VĂN E</td>
+            <td>40 CHÍNH GIÁN</td>
+            <td>18/20</td>
+            <td><span class="giai-badge giai-ba">Giải Ba</span></td>
+          </tr>
+          <tr class="rank-3">
+            <td>🥉</td>
+            <td class="name-cell">VÕ THỊ F</td>
+            <td>16 VĨNH TRUNG</td>
+            <td>18/20</td>
+            <td><span class="giai-badge giai-ba">Giải Ba</span></td>
+          </tr>
+          <tr class="rank-kk">
+            <td>4</td>
+            <td class="name-cell">ĐẶNG VĂN G</td>
+            <td>32 XUÂN HÀ</td>
+            <td>18/20</td>
+            <td><span class="giai-badge giai-kk">Khuyến khích</span></td>
+          </tr>
+          <tr class="rank-kk">
+            <td>5</td>
+            <td class="name-cell">BÙI THỊ H</td>
+            <td>49 THANH KHÊ ĐÔNG</td>
+            <td>17/20</td>
+            <td><span class="giai-badge giai-kk">Khuyến khích</span></td>
+          </tr>
+          <tr class="rank-kk">
+            <td>6</td>
+            <td class="name-cell">NGÔ VĂN I</td>
+            <td>7 TAM THUẬN</td>
+            <td>17/20</td>
+            <td><span class="giai-badge giai-kk">Khuyến khích</span></td>
+          </tr>
+          <tr class="rank-kk">
+            <td>7</td>
+            <td class="name-cell">DƯƠNG THỊ K</td>
+            <td>28 THẠC GIÁN</td>
+            <td>17/20</td>
+            <td><span class="giai-badge giai-kk">Khuyến khích</span></td>
+          </tr>
+          <tr class="rank-kk">
+            <td>8</td>
+            <td class="name-cell">TRƯƠNG VĂN L</td>
+            <td>72 THANH KHÊ TÂY</td>
+            <td>16/20</td>
+            <td><span class="giai-badge giai-kk">Khuyến khích</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      📌 <b>Xếp hạng cá nhân</b> ưu tiên theo số câu trả lời đúng nhiều nhất, sau đó đến thời gian làm bài ít nhất.<br>
+      🏆 Kết quả chung cuộc chính thức do Ban Tổ chức quyết định.
+    </div>
+  </section>
+
+  <div class="thanks">💐 Cám ơn các tập thể và cá nhân đã tham gia hưởng ứng cuộc thi! 💐</div>
+
+  <a href="index.html" class="back-home">← Quay lại trang chủ cuộc thi</a>
+
+  <footer class="footer">
+    <p>ỦY BAN MẶT TRẬN TỔ QUỐC VIỆT NAM<br>PHƯỜNG THANH KHÊ, THÀNH PHỐ ĐÀ NẴNG</p>
+  </footer>
+</div>
+
+<!-- ============================================================
+     SCRIPT: Tự động tải dữ liệu từ Google Apps Script khi có API.
+     Hiện tại đang để ví dụ tĩnh. Khi có endpoint, chỉ cần bỏ comment
+     và điền URL vào SERVER_URL.
+     ============================================================ -->
+<script>
+  // ⚠️ Khi có API trả kết quả chung cuộc, điền URL vào đây:
+  // const SERVER_URL = 'https://script.google.com/macros/s/XXXX/exec';
+  // const FINAL_RESULT_TIME = new Date('2026-09-18T08:00:00+07:00');
+
+  // function formatGiaiCaNhan(hang) {
+  //   const n = Number(hang);
+  //   if (n === 1) return { label: '🥇 Giải Nhất', cls: 'giai-nhat', rowCls: 'rank-1' };
+  //   if (n >= 2 && n <= 3) return { label: '🥈 Giải Nhì', cls: 'giai-nhi', rowCls: 'rank-2' };
+  //   if (n >= 4 && n <= 6) return { label: '🥉 Giải Ba', cls: 'giai-ba', rowCls: 'rank-3' };
+  //   return { label: '🎖️ Khuyến khích', cls: 'giai-kk', rowCls: 'rank-kk' };
+  // }
+
+  // async function taiKetQua() {
+  //   try {
+  //     const resp = await fetch(`${SERVER_URL}?action=getFinalResults`);
+  //     const data = await resp.json();
+  //     if (!data.success) return;
+
+  //     // Tập thể
+  //     const cBody = document.getElementById('collective-body');
+  //     cBody.innerHTML = '';
+  //     (data.collective || []).forEach((dv, i) => {
+  //       const hang = i + 1;
+  //       const rowCls = hang === 1 ? 'rank-1' : 'rank-2';
+  //       const badge = hang === 1
+  //         ? '<span class="giai-badge giai-nhat">Giải Nhất tập thể</span>'
+  //         : '<span class="giai-badge giai-nhi">Giải Nhì tập thể</span>';
+  //       cBody.innerHTML += `
+  //         <tr class="${rowCls}">
+  //           <td>${hang === 1 ? '🥇' : '🥈'}</td>
+  //           <td class="name-cell">${dv.khuDanCu}</td>
+  //           <td>${dv.soNguoiThi}</td>
+  //           <td>${badge}</td>
+  //         </tr>`;
+  //     });
+
+  //     // Cá nhân
+  //     const iBody = document.getElementById('individual-body');
+  //     iBody.innerHTML = '';
+  //     (data.individual || []).slice(0, 11).forEach(cn => {
+  //       const g = formatGiaiCaNhan(cn.hang);
+  //       iBody.innerHTML += `
+  //         <tr class="${g.rowCls}">
+  //           <td>${cn.hang === 1 ? '🥇' : cn.hang === 2 ? '🥈' : cn.hang === 3 ? '🥉' : cn.hang}</td>
+  //           <td class="name-cell">${cn.hoTen}</td>
+  //           <td>${cn.khuDanCu}</td>
+  //           <td>${cn.soCauDung}/20</td>
+  //           <td><span class="giai-badge ${g.cls}">${g.label}</span></td>
+  //         </tr>`;
+  //     });
+  //   } catch (e) {
+  //     console.warn('Không tải được kết quả:', e);
+  //   }
+  // }
+
+  // document.addEventListener('DOMContentLoaded', () => {
+  //   const now = new Date();
+  //   if (now >= FINAL_RESULT_TIME) taiKetQua();
+  // });
+</script>
+</body>
+</html>
